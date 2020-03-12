@@ -5,16 +5,18 @@ window.addEventListener('DOMContentLoaded', () => {
   // Вызов модального окна "Перезвоните мне"
   const callMeModal = () => {
     const popupCall = document.querySelector('.popup-call');
-    const callBtn = document.querySelector('.call-btn')
+    const callBtn = document.querySelectorAll('.call-btn');
 
-    callBtn.addEventListener('click', () => {
-      popupCall.style.display = 'block';
+    callBtn.forEach((elem) => {
+      elem.addEventListener('click', () => {
+        popupCall.style.display = 'block';
 
-      popupCall.addEventListener('click', (event) => {
-        let target = event.target;
-        if (target.closest('.popup-close') || !target.closest('.popup-content')) {
-          popupCall.style.display = 'none';
-        }
+        popupCall.addEventListener('click', (event) => {
+          let target = event.target;
+          if (target.closest('.popup-close') || !target.closest('.popup-content')) {
+            popupCall.style.display = 'none';
+          }
+        });
       });
     });
   };
