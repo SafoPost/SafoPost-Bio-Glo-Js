@@ -94,124 +94,113 @@ const getCalcSeptic = () => {
     }
   });
 
-  // Одно- двух-камерный переключатель
-  const onOffSwitch = document.querySelectorAll('.onoffswitch');
-  const onOffSwitchInner = document.querySelectorAll('.onoffswitch-inner');
-  const onOffSwitchSwitch = document.querySelectorAll('.onoffswitch-switch');
+  // Переключатель "Тип септика"
+  const myonoffswitch = document.getElementById('myonoffswitch');
+  const myonoffswitch1 = document.getElementById('myonoffswitch-1');
+
+  // Переключатель "Наличие днища"
+  const myonoffswitchTwo = document.getElementById('myonoffswitch-two');
+  const myonoffswitch2 = document.getElementById('myonoffswitch-2');
+
   const titleText = document.querySelectorAll('#collapseTwo>.panel-body>.title-text');
   const selectBox = document.querySelectorAll('#collapseTwo>.panel-body>.select-box');
   titleText[1].style.display = 'none';
   selectBox[2].style.display = 'none';
   selectBox[3].style.display = 'none';
 
-  const toggleSwitch = (index) => {
-    for (let i = 0; i < panelHeading.length - 1; i++) {
-      if (index === i) {
-        if (onOffSwitchInner[i].style.marginLeft === '') {
-          onOffSwitchSwitch[i].style.right = 'auto';
-          onOffSwitchInner[i].style.marginLeft = '-100%';
-          titleText[1].style.display = 'inline-block';
-          selectBox[2].style.display = 'inline-block';
-          selectBox[3].style.display = 'inline-block';
-        } else {
-          onOffSwitchSwitch[i].style.right = '';
-          onOffSwitchInner[i].style.marginLeft = '';
-          titleText[1].style.display = 'none';
-          selectBox[2].style.display = 'none';
-          selectBox[3].style.display = 'none';
-        }
-      }
+  const toggleSwitch = () => {
+    myonoffswitch.toggleAttribute('checked');
+    if (myonoffswitch.hasAttribute('checked')) {
+      titleText[1].style.display = 'none';
+      selectBox[2].style.display = 'none';
+      selectBox[3].style.display = 'none';
+    } else {
+      titleText[1].style.display = 'inline-block';
+      selectBox[2].style.display = 'inline-block';
+      selectBox[3].style.display = 'inline-block';
     }
+    getCalc();
   };
 
-  onOffSwitch.forEach((elem, index) => {
-    elem.addEventListener('click', () => {
-      let target = event.target;
-      target = target.closest('.onoffswitch');
-      if (elem === target) {
-        toggleSwitch(index);
-        getCalc();
-      }
-    });
-  });
+  myonoffswitch1.addEventListener('click', toggleSwitch);
+
+  const toggleSwitchTwo = () => {
+    myonoffswitchTwo.toggleAttribute('checked');
+    getCalc();
+  };
+
+  myonoffswitch2.addEventListener('click', toggleSwitchTwo);
 
   // Рассчет стоимости
+  const diamOne = document.getElementById('diam-one');
+  const ringsOne = document.getElementById('rings-one');
+  const diamTwo = document.getElementById('diam-two');
+  const ringsTwo = document.getElementById('rings-two');
+
   const calcResult = document.getElementById('calc-result');
-  const expand = document.querySelectorAll('.expand')
 
-  // Тип, диаметр и количество колец
   const getCalc = () => {
-    let result;
-    let chamber;
-    let diameter;
-    let diameter2;
-    let rings;
-    let rings2;
+    let result = 10000;
 
-    if (onOffSwitchInner[0].style.marginLeft === '') {
-      chamber = 10000;
-      for (let i = 0; i < expand.length - 2; i++) {
-        if (expand[i].value === '1.4 метра') {
-          diameter = 1;
-        } else if (expand[i].value === '2 метра') {
-          diameter = 1.2;
-        }
+    if (myonoffswitch.hasAttribute('checked')) {
+      result = 10000;
 
-        if (expand[i].value === '1 штука') {
-          rings = 1;
-        } else if (expand[i].value === '2 штуки') {
-          rings = 1.3;
-        } else if (expand[i].value === '3 штуки') {
-          rings = 1.5;
-        }
+      if (diamOne.value === '2 метра') {
+        result *= 1.2;
       }
-      result = chamber * diameter * rings;
+
+      if (ringsOne.value === '2 штуки') {
+        result *= 1.3;
+      } else if (ringsOne.value === '3 штуки') {
+        result *= 1.5;
+      }
+
+      // Наличие днища колодца
+      if (myonoffswitchTwo.hasAttribute('checked')) {
+        result += 1000;
+      }
+
     } else {
-      chamber = 15000;
-      for (let i = 0; i < expand.length - 2; i++) {
-        if (expand[i].value === '1.4 метра') {
-          diameter = 1;
-        } else if (expand[i].value === '2 метра') {
-          diameter = 1.2;
-        }
+      result = 15000;
 
-        if (expand[i].value === '1 штука') {
-          rings = 1;
-        } else if (expand[i].value === '2 штуки') {
-          rings = 1.3;
-        } else if (expand[i].value === '3 штуки') {
-          rings = 1.5;
-        }
+      if (diamOne.value === '2 метра') {
+        result *= 1.2;
       }
-      for (let i = 2; i < expand.length; i++) {
-        if (expand[i].value === '1.4 метра') {
-          diameter2 = 1;
-        } else if (expand[i].value === '2 метра') {
-          diameter2 = 1.2;
-        }
 
-        if (expand[i].value === '1 штука') {
-          rings2 = 1;
-        } else if (expand[i].value === '2 штуки') {
-          rings2 = 1.3;
-        } else if (expand[i].value === '3 штуки') {
-          rings2 = 1.5;
-        }
+      if (ringsOne.value === '2 штуки') {
+        result *= 1.3;
+      } else if (ringsOne.value === '3 штуки') {
+        result *= 1.5;
       }
-      result = chamber * diameter * rings * diameter2 * rings2;
-    }
 
-    // Наличие днища колодца
-    if (onOffSwitchInner[1].style.marginLeft === '-100%') {
-      result += 1000;
-    } else {
-      result += 2000;
+      if (diamTwo.value === '2 метра') {
+        result *= 1.2;
+      }
+
+      if (ringsTwo.value === '2 штуки') {
+        result *= 1.3;
+      } else if (ringsTwo.value === '3 штуки') {
+        result *= 1.5;
+      }
+
+      // Наличие днища колодца
+      if (myonoffswitchTwo.hasAttribute('checked')) {
+        result += 2000;
+      }
     }
 
     calcResult.value = result;
+
   };
+
+  // const expand = document.querySelectorAll('.expand');
+
+  // let resultData = {};
+
 };
 getCalcSeptic();
+
+
 
 
 
@@ -249,6 +238,8 @@ getAccordions();
 
 
 
+
+
 const promotions = () => {
   const addSentenceBtn = document.querySelector('.add-sentence-btn');
   const cardSentence = document.querySelectorAll('.col-md-4');
@@ -279,7 +270,7 @@ const sendForm = () => {
   const loadMessage = 'Идет отправка...';
   const successMessage = 'Отправлено!';
   const forms = document.querySelectorAll('form');
-  // const form = document.querySelector('.main-form');
+  const form = document.querySelector('.main-form');
 
   const statusMessage = document.createElement('div');
   statusMessage.classList.add('status-message');
@@ -289,85 +280,90 @@ const sendForm = () => {
   // forms[0].appendChild(statusMessage);
   // statusMessage.textContent = loadMessage;
 
+  console.log(123);
 
-  // forms.forEach((item) => {
-  //   let form = item;
-  //   form.addEventListener('submit', (event) => {
-  //     event.preventDefault();
+  forms.forEach((item) => {
+    let form = item;
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      console.log(event.target);
 
-  //     form.appendChild(statusMessage);
-  //     statusMessage.textContent = loadMessage;
+      form.appendChild(statusMessage);
+      statusMessage.textContent = loadMessage;
 
-  //     const formData = new FormData(form);
-  //     let body = {};
-  //     formData.forEach((val, key) => {
-  //       body[key] = val;
-  //     });
-
-  //     postData(body)
-  //       .then((response) => {
-  //         if (response.status !== 200) {
-  //           throw new Error('Status network not 200');
-  //         }
-  //         statusMessage.textContent = successMessage;
-  //       })
-  //       .catch(() => {
-  //         statusMessage.textContent = errorMessage;
-  //       })
-  //       .finally(() => {
-  //         const formInput = document.querySelectorAll('input');
-  //         for (let i = 0; i < formInput.length; i++) {
-  //           let input = formInput[i];
-  //           if (form.contains(input)) {
-  //             input.value = '';
-  //           }
-  //         };
-  //       })
-
-  //   });
-
-  // });
-
-  document.body.addEventListener('submit', (event) => {
-    event.preventDefault();
-    let form;
-    if (event.target.closest('form')) {
-      forms.forEach((elem, index) => {
-        if (elem === event.target) {
-          form = forms[index];
-        }
+      const formData = new FormData(form);
+      let body = {};
+      formData.forEach((val, key) => {
+        body[key] = val;
       });
-    }
-    form.appendChild(statusMessage);
-    statusMessage.textContent = loadMessage;
 
-    const formData = new FormData(form);
-    let body = {};
-    formData.forEach((val, key) => {
-      body[key] = val;
+      postData(body)
+        .then((response) => {
+          if (response.status !== 200) {
+            throw new Error('Status network not 200');
+          }
+          statusMessage.textContent = successMessage;
+        })
+        .catch(() => {
+          statusMessage.textContent = errorMessage;
+        })
+        .finally(() => {
+          const formInput = document.querySelectorAll('input');
+          for (let i = 0; i < formInput.length; i++) {
+            let input = formInput[i];
+            if (form.contains(input)) {
+              input.value = '';
+            }
+          };
+        })
+
     });
 
-    postData(body)
-      .then((response) => {
-        if (response.status !== 200) {
-          throw new Error('Status network not 200');
-        }
-        statusMessage.textContent = successMessage;
-      })
-      .catch(() => {
-        statusMessage.textContent = errorMessage;
-      })
-      .finally(() => {
-        const formInput = document.querySelectorAll('input');
-        for (let i = 0; i < formInput.length; i++) {
-          let input = formInput[i];
-          if (form.contains(input)) {
-            input.value = '';
-          }
-        };
-      })
-
   });
+
+  // document.body.addEventListener('submit', (event) => {
+  //   event.preventDefault();
+  //   let form;
+
+  //   console.log(event.target);
+
+  //   if (event.target.closest('form')) {
+  //     forms.forEach((elem, index) => {
+  //       if (elem === event.target) {
+  //         form = forms[index];
+  //       }
+  //     });
+  //   }
+  //   form.appendChild(statusMessage);
+  //   statusMessage.textContent = loadMessage;
+
+  //   const formData = new FormData(form);
+  //   let body = {};
+  //   formData.forEach((val, key) => {
+  //     body[key] = val;
+  //   });
+
+  //   postData(body)
+  //     .then((response) => {
+  //       if (response.status !== 200) {
+  //         throw new Error('Status network not 200');
+  //       }
+  //       statusMessage.textContent = successMessage;
+  //     })
+  //     .catch(() => {
+  //       statusMessage.textContent = errorMessage;
+  //     })
+  //     .finally(() => {
+  //       const formInput = document.querySelectorAll('input');
+  //       for (let i = 0; i < formInput.length; i++) {
+  //         let input = formInput[i];
+  //         if (form.contains(input)) {
+  //           input.value = '';
+  //         }
+  //       };
+  //     })
+
+  // });
 
   const postData = (body) => {
     return fetch('./server.php', {
@@ -389,17 +385,13 @@ sendForm();
 
 const validInput = () => {
   document.body.addEventListener('input', (event) => {
-    const patternPhone = /^\+?[0-9]*$/;
-    const patternText = /^[А-Яа-яЁё ]*\??$/;
-    if (event.target.placeholder === '+7(___)___-__-__') {
-      if (!patternPhone.test(event.target.value)) {
-        event.target.value = '';
-      }
+    let target = event.target;
+
+    if (target.placeholder === '+7(___)___-__-__') {
+      target.value = target.value.replace(/\+{2,}|[А-Яа-яЁё]|[A-Za-z]|\s/gi, '');
     }
-    if (event.target.placeholder === 'Ваше имя' || event.target.placeholder === 'Введите свой вопрос') {
-      if (!patternText.test(event.target.value)) {
-        event.target.value = '';
-      }
+    if (target.placeholder === 'Ваше имя' || target.placeholder === 'Введите свой вопрос') {
+      target.value = target.value.replace(/[A-Za-z]/gi, '');
     }
   });
 };
