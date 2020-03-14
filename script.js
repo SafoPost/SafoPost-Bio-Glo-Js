@@ -1,13 +1,19 @@
 'use strict';
 
 const popupOpenClose = () => {
-  const popupCall = document.querySelector('.popup-call');
   const popup = document.querySelectorAll('.popup');
+
+  const popupCall = document.querySelector('.popup-call');
   const callBtn = document.querySelectorAll('.call-btn');
+
   const popupDiscount = document.querySelector('.popup-discount');
   const discountBtn = document.querySelectorAll('.discount-btn');
+
   const popupCheck = document.querySelector('.popup-check');
   const checkBtn = document.querySelector('.check-btn');
+
+  const popupConsult = document.querySelector('.popup-consultation');
+  const consultBtn = document.querySelector('.consultation-btn');
 
 
   callBtn.forEach((elem) => {
@@ -36,6 +42,11 @@ const popupOpenClose = () => {
     popupCheck.style.display = 'block'
   });
 
+  consultBtn.addEventListener('click', () => {
+    popupConsult.style.display = 'block'
+  });
+
+  // Закрываем все модальные акна
   popup.forEach((elem) => {
     elem.addEventListener('click', (event) => {
       let target = event.target;
@@ -43,6 +54,7 @@ const popupOpenClose = () => {
         popupCall.style.display = 'none';
         popupDiscount.style.display = 'none';
         popupCheck.style.display = 'none';
+        popupConsult.style.display = 'none'
       }
     });
   });
@@ -52,10 +64,7 @@ popupOpenClose();
 
 
 
-
-
 const getCalcSeptic = () => {
-
   // Переключаем аккордеон по кнопке "Следующий шаг"
   const accordion = document.getElementById('accordion');
   const constructBtn = document.querySelectorAll('.construct-btn');
@@ -374,3 +383,25 @@ const sendForm = () => {
 };
 sendForm();
 
+
+
+
+
+const validInput = () => {
+  document.body.addEventListener('input', (event) => {
+    const patternPhone = /^\+?[0-9]*$/;
+    const patternText = /^[А-Яа-яЁё ]*\??$/;
+    if (event.target.placeholder === '+7(___)___-__-__') {
+      if (!patternPhone.test(event.target.value)) {
+        event.target.value = '';
+      }
+    }
+    if (event.target.placeholder === 'Ваше имя' || event.target.placeholder === 'Введите свой вопрос') {
+      if (!patternText.test(event.target.value)) {
+        event.target.value = '';
+      }
+    }
+  });
+};
+
+validInput();
