@@ -22,16 +22,19 @@ const getCalcSeptic = () => {
       constructBtn.forEach((elem, index) => {
         if (elem === target) {
           getNextStep(index);
-          getCalc();
+          // getCalc();
         }
       });
     }
   });
 
+  accordion.addEventListener('input', () => {
+    getCalc();
+  })
+
   // Переключатель "Тип септика"
   const myonoffswitch = document.getElementById('myonoffswitch');
   const myonoffswitch1 = document.getElementById('myonoffswitch-1');
-
 
   // Переключатель "Наличие днища"
   const myonoffswitchTwo = document.getElementById('myonoffswitch-two');
@@ -126,6 +129,7 @@ const getCalcSeptic = () => {
 
     calcResult.value = result;
   };
+
 };
 
 export default getCalcSeptic;

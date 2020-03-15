@@ -32,9 +32,7 @@ const popupOpenClose = () => {
 
       if (target.closest('.construct-btn') || target.closest('.discount-btn')) {
         popupDiscount.style.display = 'block';
-        console.log(calcForm);
         calcForm.classList.add('popup-calc');
-        console.log(calcForm);
       } else if (target.closest('.call-btn')) {
         popupCall.style.display = 'block';
       }
@@ -109,16 +107,19 @@ const getCalcSeptic = () => {
       constructBtn.forEach((elem, index) => {
         if (elem === target) {
           getNextStep(index);
-          getCalc();
+          // getCalc();
         }
       });
     }
   });
 
+  accordion.addEventListener('input', () => {
+    getCalc();
+  })
+
   // Переключатель "Тип септика"
   const myonoffswitch = document.getElementById('myonoffswitch');
   const myonoffswitch1 = document.getElementById('myonoffswitch-1');
-
 
   // Переключатель "Наличие днища"
   const myonoffswitchTwo = document.getElementById('myonoffswitch-two');
@@ -211,44 +212,9 @@ const getCalcSeptic = () => {
       }
     }
 
+
     calcResult.value = result;
   };
-
-  // Собираем данные в объект
-  // const distance = document.getElementById('distance');
-  // resultData = {
-  //   typeSeptic: 'Однокамерный',
-  //   diamOne: '-',
-  //   ringsOne: '-',
-  //   diamTwo: '-',
-  //   ringsTwo: '-',
-  //   wellBottom: 'Есть',
-  //   distance: '-',
-  //   calcResult: ''
-  // };
-  // if (!myonoffswitch.hasAttribute('checked')) {
-  //   resultData.typeSeptic = 'Двухкамерный';
-  // }
-  // resultData.diamOne = diamOne.value;
-  // resultData.ringsOne = ringsOne.value;
-  // if (!myonoffswitch.hasAttribute('checked')) {
-  //   resultData.diamTwo = diamTwo.value;
-  //   resultData.ringsTwo = ringsTwo.value;
-  // }
-  // if (!myonoffswitchTwo.hasAttribute('checked')) {
-  //   resultData.typeSeptic = 'Нет';
-  // }
-  // if (distance.value !== '') {
-  //   resultData.distance = distance.value;
-  // }
-  // if (calcResult.value !== '') {
-  //   resultData.calcResult = calcResult.value;
-  // }
-  // console.log(resultData);
-  // return resultData;
-
-
-
 
 };
 getCalcSeptic();

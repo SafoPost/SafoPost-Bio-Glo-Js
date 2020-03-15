@@ -30,9 +30,7 @@ const popupOpenClose = () => {
 
       if (target.closest('.construct-btn') || target.closest('.discount-btn')) {
         popupDiscount.style.display = 'block';
-        console.log(calcForm);
         calcForm.classList.add('popup-calc');
-        console.log(calcForm);
       } else if (target.closest('.call-btn')) {
         popupCall.style.display = 'block';
       }
