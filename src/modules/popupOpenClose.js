@@ -25,6 +25,7 @@ const popupOpenClose = () => {
 
   callBtn.forEach((elem) => {
     elem.addEventListener('click', (event) => {
+      event.preventDefault();
       let target = event.target;
 
       if (target.closest('.construct-btn') || target.closest('.discount-btn')) {

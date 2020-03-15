@@ -27,6 +27,7 @@ const popupOpenClose = () => {
 
   callBtn.forEach((elem) => {
     elem.addEventListener('click', (event) => {
+      event.preventDefault();
       let target = event.target;
 
       if (target.closest('.construct-btn') || target.closest('.discount-btn')) {
@@ -442,9 +443,11 @@ const sendForm = () => {
             input.value = '';
           }
         };
+        setTimeout(() => {
+          statusMessage.remove();
+        }, 5000);
       })
   });
-  // console.log(resultData);
 
   const postData = (bodyAll) => {
     return fetch('server.php', {

@@ -108,12 +108,14 @@ const sendForm = () => {
             input.value = '';
           }
         };
+        setTimeout(() => {
+          statusMessage.remove();
+        }, 5000);
       })
   });
-  // console.log(resultData);
 
   const postData = (bodyAll) => {
-    return fetch('./server.php', {
+    return fetch('server.php', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -122,6 +124,7 @@ const sendForm = () => {
       credentials: 'include'
     });
   };
+
 };
 
 export default sendForm;
