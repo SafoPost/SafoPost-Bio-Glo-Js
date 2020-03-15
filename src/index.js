@@ -15,7 +15,7 @@ import getCalcSeptic from './modules/getCalcSeptic';
 import getAccordions from './modules/getAccordions';
 import promotions from './modules/promotions';
 import sendForm from './modules/sendForm';
-// import ooo from './modules/ooo';
+import validInput from './modules/validInput';
 
 
 // Модальные окна. Открыть/закрыть
@@ -28,3 +28,5 @@ getAccordions();
 promotions();
 // Отправка форм
 sendForm();
+// Валидация инпутов
+validInput();

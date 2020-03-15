@@ -17,6 +17,14 @@ const popupOpenClose = () => {
   const consultBtn = document.querySelector('.consultation-btn');
   const consultForm = document.getElementById('consult-form');
 
+  const removeMessage = () => {
+    const statusMessage = document.querySelector('.status-message')
+    if (statusMessage) {
+      statusMessage.remove();
+    }
+  };
+
+
   callBtn.forEach((elem) => {
     elem.addEventListener('click', (event) => {
       let target = event.target;
@@ -29,6 +37,7 @@ const popupOpenClose = () => {
       } else if (target.closest('.call-btn')) {
         popupCall.style.display = 'block';
       }
+      removeMessage();
     });
   });
 
@@ -39,16 +48,19 @@ const popupOpenClose = () => {
       if (target.closest('.discount-btn')) {
         popupDiscount.style.display = 'block';
       }
+      removeMessage();
     });
   });
 
   checkBtn.addEventListener('click', () => {
-    popupCheck.style.display = 'block'
+    popupCheck.style.display = 'block';
+    removeMessage();
   });
 
   consultBtn.addEventListener('click', () => {
-    popupConsult.style.display = 'block'
+    popupConsult.style.display = 'block';
     consultForm.classList.add('popup-consult');
+    removeMessage();
   });
 
   // Закрываем все модальные акна
@@ -60,8 +72,9 @@ const popupOpenClose = () => {
         popupDiscount.style.display = 'none';
         calcForm.classList.remove('popup-calc');
         popupCheck.style.display = 'none';
-        popupConsult.style.display = 'none'
+        popupConsult.style.display = 'none';
         calcForm.classList.remove('popup-consult');
+        removeMessage();
       }
     });
   });
